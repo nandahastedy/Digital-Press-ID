@@ -1,0 +1,6 @@
+{
+  "name": "Digital Press ID",
+  "description": "A secure digital press card management system for internal use, synchronized with Google Sheets.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
