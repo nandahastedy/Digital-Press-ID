@@ -48,11 +48,30 @@ const MOCK_DATA: PressCardData[] = [
 
 const cleanPhotoUrl = (url: string): string => {
   if (!url) return '';
-  // Convert Google Drive view links to direct links
-  const driveMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-  if (driveMatch && driveMatch[1]) {
-    return `https://lh3.googleusercontent.com/d/${driveMatch[1]}`;
+  
+  // Extract ID from various Google Drive URL formats
+  let driveId = '';
+  
+  // Pattern 1: /file/d/[ID]/... (Common view link)
+  const pattern1 = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (pattern1) driveId = pattern1[1];
+  
+  // Pattern 2: ?id=[ID] or &id=[ID] (Common open/uc links)
+  if (!driveId) {
+    const pattern2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (pattern2) driveId = pattern2[1];
   }
+
+  // Pattern 3: direct ID lookup (if the user pasted just the ID)
+  if (!driveId && url.length > 20 && !url.includes('/') && !url.includes('.')) {
+    driveId = url;
+  }
+  
+  if (driveId) {
+    // This is the most reliable way to display Drive images in <img> tags
+    return `https://lh3.googleusercontent.com/d/${driveId}`;
+  }
+  
   return url;
 };
 

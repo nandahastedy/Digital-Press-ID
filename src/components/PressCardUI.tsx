@@ -96,13 +96,23 @@ export default function PressCardUI({ card }: PressCardUIProps) {
         {/* Photo Section */}
         <div className="relative flex flex-col items-center mb-6">
           <div className="relative">
-             <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-slate-700 shadow-inner">
-                <img 
-                  src={card.photoUrl || null} 
-                  alt={card.name} 
-                  className={cn("w-full h-full object-cover brightness-100", isExpired && "sepia opacity-60")}
-                  referrerPolicy="no-referrer"
-                />
+             <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-slate-700 shadow-inner bg-slate-800 flex items-center justify-center">
+                {card.photoUrl ? (
+                  <img 
+                    src={card.photoUrl} 
+                    alt={card.name} 
+                    className={cn("w-full h-full object-cover brightness-100", isExpired && "sepia opacity-60")}
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(card.name)}&background=1e293b&color=fff&size=512`;
+                    }}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-slate-800 flex flex-col items-center justify-center text-slate-500">
+                    <Shield size={40} className="mb-1 opacity-20" />
+                    <span className="text-[10px] font-bold opacity-30">NO PHOTO</span>
+                  </div>
+                )}
              </div>
              {/* Security Seal */}
              <div className="absolute -bottom-2 -right-2 bg-blue-600 p-2 rounded-full border-2 border-slate-800 shadow-lg">
