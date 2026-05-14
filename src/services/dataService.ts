@@ -68,12 +68,29 @@ export async function fetchPressCards(): Promise<PressCardData[]> {
     const response = await fetch(csvUrl);
     const text = await response.text();
     
-    // Simple CSV parser (assuming comma separated)
-    const lines = text.split('\n');
-    const headers = lines[0].split(',').map(h => h.trim());
+    // Robust CSV parser to handle quoted values and varied line endings
+    const lines = text.split(/\r?\n/).filter(line => line.trim());
+    if (lines.length === 0) return MOCK_DATA;
+
+    const parseCSVLine = (line: string) => {
+      const result = [];
+      let start = 0;
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        if (line[i] === '"') inQuotes = !inQuotes;
+        if (line[i] === ',' && !inQuotes) {
+          result.push(line.substring(start, i).replace(/^"(.*)"$/, '$1').trim());
+          start = i + 1;
+        }
+      }
+      result.push(line.substring(start).replace(/^"(.*)"$/, '$1').trim());
+      return result;
+    };
+
+    const headers = parseCSVLine(lines[0]);
     
-    return lines.slice(1).filter(line => line.trim()).map((line, idx) => {
-      const values = line.split(',').map(v => v.trim());
+    return lines.slice(1).map((line, idx) => {
+      const values = parseCSVLine(line);
       const data: any = {};
       headers.forEach((header, index) => {
         data[header] = values[index];

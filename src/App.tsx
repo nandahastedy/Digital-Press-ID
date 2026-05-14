@@ -375,7 +375,9 @@ export default function App() {
             <div className="flex items-center justify-center gap-6 pt-4">
                <div className="text-left">
                   <p className="text-[10px] uppercase font-bold text-slate-600">Database Source</p>
-                  <p className="text-xs text-slate-400">Google Sheets Sync Active</p>
+                  <p className={cn("text-xs font-medium", cards.length > 0 && cards[0].id === '1' ? "text-amber-500" : "text-green-500")}>
+                    {cards.length > 0 && cards[0].id === '1' ? "Using Fallback Data" : "Live Google Sheets Sync"}
+                  </p>
                </div>
                <div className="w-px h-8 bg-slate-800" />
                <div className="text-left">
