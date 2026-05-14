@@ -15,10 +15,29 @@ export default function App() {
   const [sortField, setSortField] = useState<SortField>('name');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
   const [currentPage, setCurrentPage] = useState(1);
+  const [isWindowFocused, setIsWindowFocused] = useState(true);
   const itemsPerPage = 10;
 
   useEffect(() => {
     loadData();
+    
+    // Security Focus Protection
+    const handleBlur = () => setIsWindowFocused(false);
+    const handleFocus = () => setIsWindowFocused(true);
+    const handleVisibilityChange = () => {
+      if (document.hidden) setIsWindowFocused(false);
+      else setIsWindowFocused(true);
+    };
+
+    window.addEventListener('blur', handleBlur);
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('blur', handleBlur);
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
 
   const loadData = async () => {
@@ -337,8 +356,29 @@ export default function App() {
                   </button>
                 </div>
 
-                <div className="flex justify-center overflow-visible py-2">
-                  <div className="scale-[0.75] xs:scale-[0.85] sm:scale-100 origin-top transition-transform duration-300">
+                <div className="flex justify-center overflow-visible py-2 relative">
+                  {/* Security Blur Overlay */}
+                  <AnimatePresence>
+                    {!isWindowFocused && (
+                      <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute inset-0 z-50 backdrop-blur-xl bg-slate-900/40 flex items-center justify-center rounded-2xl"
+                      >
+                        <div className="text-white text-center p-6">
+                          <ShieldCheck size={48} className="mx-auto mb-2 text-blue-400 opacity-50" />
+                          <p className="font-bold text-sm tracking-widest uppercase">Security Mode Active</p>
+                          <p className="text-[10px] opacity-60">Content hidden for protection</p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  <div className={cn(
+                    "scale-[0.75] xs:scale-[0.85] sm:scale-100 origin-top transition-all duration-500",
+                    !isWindowFocused && "blur-2xl scale-95 opacity-20 pointer-events-none"
+                  )}>
                     <PressCardUI card={selectedCard} />
                   </div>
                 </div>
@@ -386,6 +426,7 @@ export default function App() {
                </div>
             </div>
             <p className="pt-8 text-[10px] text-slate-700">© 2024 Digital Press Indonesia All Rights Reserved.</p>
+            <p className="pb-4 text-[10px] font-bold text-slate-800 tracking-widest uppercase">Developed by Neverhide™</p>
          </div>
       </footer>
     </div>
