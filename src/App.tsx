@@ -16,7 +16,7 @@ export default function App() {
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
   const [currentPage, setCurrentPage] = useState(1);
   const [isWindowFocused, setIsWindowFocused] = useState(true);
-  const itemsPerPage = 10;
+  const itemsPerPage = 5;
 
   useEffect(() => {
     loadData();
@@ -57,11 +57,7 @@ export default function App() {
   const filteredCards = cards
     .filter(card => {
       const searchLower = search.toLowerCase();
-      return (
-        String(card.name || '').toLowerCase().includes(searchLower) ||
-        String(card.nia || '').toLowerCase().includes(searchLower) ||
-        String(card.position || '').toLowerCase().includes(searchLower)
-      );
+      return String(card.name || '').toLowerCase().includes(searchLower);
     })
     .sort((a, b) => {
       let comparison = 0;
@@ -104,6 +100,19 @@ export default function App() {
           </div>
           
           <div className="flex items-center gap-3">
+             <button 
+              onClick={() => {
+                const searchInput = document.querySelector('input[placeholder*="Cari"]') as HTMLInputElement;
+                if (searchInput) {
+                  searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  searchInput.focus();
+                }
+              }} 
+              className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500"
+              title="Cari Anggota"
+             >
+               <Search size={18} />
+             </button>
              <button 
               onClick={loadData} 
               className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500"
@@ -148,43 +157,17 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
             {/* Directory Section */}
             <div className="md:col-span-12 space-y-6">
-              {/* Search & Filter */}
-              <div className="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4">
+              {/* Search */}
+              <div className="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                   <input 
                     type="text" 
-                    placeholder="Cari nama, NIA, atau jabatan..." 
-                    className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900 transition-all"
+                    placeholder="Cari nama anggota..." 
+                    className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900 transition-all text-sm"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                   />
-                </div>
-                
-                <div className="flex flex-wrap items-center gap-3">
-                   <span className="text-xs font-bold text-slate-400 flex items-center gap-1 pr-2">
-                     <Filter size={14} /> URUTKAN:
-                   </span>
-                   {[
-                     { label: 'Nama', field: 'name' },
-                     { label: 'NIA', field: 'nia' },
-                   ].map(f => (
-                     <button 
-                      key={f.label}
-                      onClick={() => {
-                        if (sortField === f.field) setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-                        else setSortField(f.field as SortField);
-                      }}
-                      className={cn(
-                        "px-4 py-1.5 rounded-full text-xs font-semibold transition-all border",
-                        sortField === f.field 
-                          ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-slate-200" 
-                          : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
-                      )}
-                     >
-                       {f.label} {sortField === f.field && (sortOrder === 'asc' ? '↑' : '↓')}
-                     </button>
-                   ))}
                 </div>
               </div>
 
@@ -221,10 +204,15 @@ export default function App() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="font-bold text-sm text-slate-900 truncate">{card.name}</h3>
-                        <p className="text-xs text-slate-500 font-medium truncate">{card.position}</p>
-                        <div className="flex items-center gap-1.5 mt-1">
-                          <span className="text-[9px] bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">{card.region}</span>
-                          <span className="text-[9px] text-slate-400 font-mono">{card.nia}</span>
+                        <div className="mt-1">
+                          <span className={cn(
+                            "text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider border",
+                            String(card.status || '').toLowerCase() === 'aktif'
+                              ? "bg-green-50 text-green-700 border-green-200"
+                              : "bg-red-50 text-red-700 border-red-200"
+                          )}>
+                            {card.status || 'Aktif'}
+                          </span>
                         </div>
                       </div>
                       <div className={cn(
@@ -285,36 +273,28 @@ export default function App() {
 
               {/* Legal Disclaimer Section */}
               <div className="mt-12 space-y-6">
-                <div className="bg-amber-50 border border-amber-100 p-6 rounded-2xl">
-                  <div className="flex items-center gap-2 mb-4 text-amber-800">
-                    <AlertTriangle size={20} />
-                    <h3 className="font-bold uppercase tracking-wider text-sm">Informasi Penting & Etika Jurnalistik</h3>
+                <div className="bg-amber-50 border border-amber-100 p-5 sm:p-8 rounded-2xl text-center">
+                  <div className="flex flex-col items-center justify-center gap-1.5 mb-4 text-amber-800">
+                    <AlertTriangle size={18} />
+                    <h3 className="font-extrabold uppercase tracking-wider text-xs">Informasi Penting & Etika Jurnalistik</h3>
                   </div>
-                  <div className="space-y-4 text-xs text-amber-900/80 leading-relaxed text-justify">
+                  <div className="space-y-4 text-[10px] text-amber-900/80 leading-relaxed text-center max-w-2xl mx-auto">
                     <p>
-                      WARTAWAN TINTAINFORMASI.COM TIDAK DIPERKENANKAN MENERIMA APAPUN DARI NARASUMBER. JURNALIS/WARTAWAN TINTAINFORMASI.COM SETIAP BERTUGAS SELALU DIBEKALI TANDA PENGENAL SEPERTI KARTU PERS (KTA) DAN SURAT TUGAS YANG MASIH BERLAKU.
+                      Wartawan Tinta Informasi dilarang menerima imbalan dari narasumber dan wajib membawa Kartu Pers (KTA) serta Surat Tugas yang masih berlaku saat bertugas. Pihak yang mengatasnamakan TintaInformasi.com tanpa identitas resmi dan tidak tercantum dalam boks redaksi dapat dilaporkan kepada pihak berwenang. Segala pelanggaran kode etik maupun hukum menjadi tanggung jawab pribadi pelaku, sedangkan isi pemberitaan menjadi tanggung jawab wartawan yang bersangkutan. Kartu Pers yang sah hanya yang diterbitkan oleh Redaksi TintaInformasi.
                     </p>
-                    <p>
-                      BAGI OKNUM WARTAWAN YANG MENGATASNAMAKAN TINTAINFORMASI.COM NAMUN TIDAK MEMILIKI KARTU PERS (KTA) TINTAINFORMASI.COM YANG MASIH BERLAKU DAN NAMANYA TIDAK TERTERA DI DALAM BOKS REDAKSI MAKA DAPAT DILAPORKAN KE PIHAK YANG BERWAJIB TERDEKAT.
+                    <p className="font-extrabold text-amber-900 italic">
+                      KARTU PERS (KTA) YANG BERLAKU HANYA YANG DIKELUARKAN OLEH REDAKSI MEDIA TINTA INFORMASI.
                     </p>
-                    <p>
-                      APABILA YANG BERSANGKUTAN DALAM MENJALANKAN TUGAS JURNALISTIK MELAKUKAN PERBUATAN YANG MERUGIKAN SERTA MELANGGAR KODE ETIK JURNALISTIK DAN HUKUM YANG BERLAKU MAKA ITU BUKAN TANGGUNG JAWAB MEDIA ONLINE TINTAINFORMASI.COM/REDAKSI.
-                    </p>
-                    <p>
-                      MATERI PEMBERITAAN MENJADI TANGGUNG JAWAB SEPENUHNYA KORESPONDEN TINTAINFORMASI.COM YANG BERSANGKUTAN.
-                    </p>
-                    <p className="font-bold text-amber-900 italic">
-                      KARTU IDENTITAS/ KARTU PERS (KTA) YANG BERLAKU HANYA YANG DIKELUARKAN OLEH REDAKSI/KANTOR PUSAT MEDIA ONLINE TINTAINFORMASI.COM.
-                    </p>
-                    <p className="pt-2 border-t border-amber-200/50 mt-2">
-                      <a href="https://tintainformasi.com/redaksi/" target="_blank" rel="noopener noreferrer" className="text-blue-700 font-bold hover:underline flex items-center gap-1">
-                        INFO BOKS REDAKSI: https://tintainformasi.com/redaksi/
+                    <p className="pt-3 border-t border-amber-200/50 mt-3 flex justify-center">
+                      <a href="https://tintainformasi.com/redaksi/" target="_blank" rel="noopener noreferrer" className="text-blue-700 font-extrabold hover:underline inline-flex flex-col items-center gap-1 text-[10px]">
+                        <span>INFO BOKS REDAKSI</span>
+                        <span className="font-mono text-[9px] mt-0.5">https://tintainformasi.com/redaksi/</span>
                       </a>
                     </p>
-                    <div className="mt-4 p-3 bg-white/50 border border-amber-200 rounded-xl text-center">
-                      <p className="text-[10px] text-amber-800 font-bold uppercase mb-1">Status Verifikasi Organisasi</p>
-                      <p className="text-[11px] text-slate-700 font-medium">Tinta Informasi telah diverifikasi oleh JMSI (Jaringan Media Siber Indonesia)</p>
-                      <p className="text-[11px] text-blue-700 font-bold">Sertifikat Nomor 10.109/JMSI/2024</p>
+                    <div className="mt-4 p-3 bg-white/60 border border-amber-200 rounded-xl text-center max-w-md mx-auto">
+                      <p className="text-[9px] text-amber-800 font-extrabold uppercase mb-1">Status Verifikasi Organisasi</p>
+                      <p className="text-[10px] text-slate-700 font-bold">Tinta Informasi telah diverifikasi oleh JMSI (Jaringan Media Siber Indonesia)</p>
+                      <p className="text-[10px] text-blue-700 font-extrabold">Sertifikat Nomor 10.109/JMSI/2024</p>
                     </div>
                   </div>
                 </div>
@@ -385,7 +365,7 @@ export default function App() {
                 
                 <div className="mt-4 sm:mt-8 pt-4 sm:pt-6 border-t border-slate-100 text-center">
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Status Keanggotaan</p>
-                  <p className="text-[10px] sm:text-xs text-slate-600 px-4">Verifikasi digital ID diterbitkan secara internal oleh IT Tinta Informasi</p>
+                  <p className="text-[10px] sm:text-xs text-slate-600 px-4">Verifikasi digital ID diterbitkan secara internal oleh Redaksi</p>
                 </div>
               </div>
             </motion.div>
@@ -400,6 +380,9 @@ export default function App() {
                <div className="flex items-center gap-2">
                  <ShieldCheck className="text-blue-500" size={24} />
                  <span className="text-white font-bold text-lg tracking-tighter">Digital Press ID System</span>
+               </div>
+               <div className="flex items-center gap-2">
+                 <span className="text-[12px] font-bold">TINTA INFORMASI</span>
                </div>
                <div className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10">
                  <span className="text-[10px] text-blue-400 font-bold uppercase tracking-wider">Verified by JMSI</span>
@@ -425,8 +408,8 @@ export default function App() {
                   <p className="text-xs text-slate-400">AES-256 Cloud Encrypted</p>
                </div>
             </div>
-            <p className="pt-8 text-[10px] text-slate-700">© 2024 Digital Press Indonesia All Rights Reserved.</p>
-            <p className="pb-4 text-[10px] font-bold text-slate-800 tracking-widest uppercase">Developed by Neverhide™</p>
+            <p className="pt-8 text-[10px] text-slate-700">© 2026 Digital Press Indonesia All Rights Reserved.</p>
+            <p className="pb-4 text-[8px] font-black tracking-[0.25em] uppercase animate-text-gradient select-none">Developed by Neverhide™</p>
          </div>
       </footer>
     </div>

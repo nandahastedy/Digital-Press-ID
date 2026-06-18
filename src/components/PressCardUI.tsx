@@ -224,7 +224,7 @@ export default function PressCardUI({ card }: PressCardUIProps) {
           <Shield size={12} /> SECURITY PROTOCOL:
         </p>
         <p>1. Kartu ini hanya untuk penggunaan internal.</p>
-        <p>2. Dilarang melakukan tangkapan layar (screenshot) atau membagikan ke pihak luar.</p>
+        <p>2. Informasi terus diupdate berkala.</p>
         <p>3. Blur otomatis akan aktif jika jendela aplikasi tidak fokus.</p>
       </div>
 
