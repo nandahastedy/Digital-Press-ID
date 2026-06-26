@@ -3,8 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Kartu Pers Digital Tinta Informasi</title>
+    
+    <!-- Anti Pinch Zoom & Multi-touch Zoom Prevention for Mobile -->
+    <script>
+      document.addEventListener('gesturestart', function (e) {
+        e.preventDefault();
+      });
+      document.addEventListener('touchstart', function (e) {
+        if (e.touches.length > 1) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+    </script>
     
     <!-- Open Graph / WhatsApp / Facebook Meta Tags -->
     <meta property="og:title" content="Kartu Pers Digital Tinta Informasi" />
