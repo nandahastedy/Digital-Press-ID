@@ -85,17 +85,17 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 overflow-x-hidden">
+    <div className="min-h-screen bg-slate-200 font-sans text-slate-800 overflow-x-hidden transition-colors duration-300">
       {/* Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-40 backdrop-blur-md bg-white/80">
+      <header className="bg-slate-200/90 sticky top-0 z-40 backdrop-blur-md border-b border-white/20 shadow-[0_4px_12px_rgba(148,163,184,0.15)]">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="bg-slate-900 p-1.5 rounded-lg flex items-center justify-center">
-              <ShieldCheck className="text-white" size={20} />
+          <div className="flex items-center gap-3">
+            <div className="bg-slate-200 p-2.5 rounded-xl flex items-center justify-center shadow-[inset_2px_2px_4px_#cbd5e1,inset_-2px_-2px_4px_#ffffff] border border-white/30">
+              <ShieldCheck className="text-blue-600 animate-pulse" size={22} />
             </div>
             <div className="flex flex-col">
-              <h1 className="font-bold text-lg tracking-tight leading-none">Digital Press ID</h1>
-              <p className="text-[9px] text-blue-600 font-bold uppercase tracking-tighter mt-0.5">Verified by JMSI</p>
+              <h1 className="font-extrabold text-base sm:text-lg tracking-tight leading-none text-slate-800">Digital Press ID</h1>
+              <p className="text-[9px] text-blue-600 font-extrabold uppercase tracking-tighter mt-1">Verified by JMSI</p>
             </div>
           </div>
           
@@ -108,47 +108,47 @@ export default function App() {
                   searchInput.focus();
                 }
               }} 
-              className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500"
+              className="p-2.5 rounded-full text-slate-600 shadow-[3px_3px_6px_#c8d0da,-3px_-3px_6px_#ffffff] hover:shadow-[1px_1px_3px_#c8d0da,-1px_-1px_3px_#ffffff] transition-all bg-slate-200 active:shadow-[inset_2px_2px_4px_#c8d0da,inset_-2px_-2px_4px_#ffffff]"
               title="Cari Anggota"
              >
-               <Search size={18} />
+               <Search size={16} />
              </button>
              <button 
               onClick={loadData} 
-              className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500"
+              className="p-2.5 rounded-full text-slate-600 shadow-[3px_3px_6px_#c8d0da,-3px_-3px_6px_#ffffff] hover:shadow-[1px_1px_3px_#c8d0da,-1px_-1px_3px_#ffffff] transition-all bg-slate-200 active:shadow-[inset_2px_2px_4px_#c8d0da,inset_-2px_-2px_4px_#ffffff]"
               title="Refresh Data"
              >
-               <RefreshCw size={18} className={cn(loading && "animate-spin")} />
+               <RefreshCw size={16} className={cn(loading && "animate-spin text-blue-600")} />
              </button>
-             <div className="h-6 w-px bg-slate-200" />
+             <div className="h-6 w-px bg-slate-300" />
              <div className="text-right hidden xs:block">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Internal Use Only</p>
-                <p className="text-xs font-medium text-slate-600">v1.1.0 Stable</p>
+                <p className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest leading-none mb-0.5">Internal Use Only</p>
+                <p className="text-xs font-semibold text-slate-600">v1.1.0 Stable</p>
              </div>
           </div>
         </div>
       </header>
 
       <main className="max-w-6xl mx-auto px-4 py-8">
-        <div className="space-y-6">
+        <div className="space-y-8">
           {/* Stats Bar */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               { label: 'Total Member', value: stats.total, icon: Users, color: 'blue' },
               { label: 'Status Aktif', value: stats.active, icon: Shield, color: 'green' },
               { label: 'Tidak Aktif', value: stats.inactive, icon: AlertTriangle, color: 'red' },
             ].map((s, i) => (
-              <div key={i} className="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm flex items-center gap-4">
-                 <div className={cn("p-3 rounded-xl", {
-                   'bg-blue-50 text-blue-600': s.color === 'blue',
-                   'bg-green-50 text-green-600': s.color === 'green',
-                   'bg-red-50 text-red-600': s.color === 'red',
+              <div key={i} className="neu-flat p-5 rounded-2xl flex items-center gap-4 transition-all duration-300 hover:scale-[1.01]">
+                 <div className={cn("p-3.5 rounded-xl shadow-[inset_2px_2px_5px_#c8d0da,inset_-2px_-2px_5px_#ffffff] border border-white/20", {
+                   'text-blue-600 bg-blue-50/10': s.color === 'blue',
+                   'text-green-600 bg-green-50/10': s.color === 'green',
+                   'text-red-600 bg-red-50/10': s.color === 'red',
                  })}>
-                    <s.icon size={20} />
+                    <s.icon size={22} />
                  </div>
                  <div>
-                    <p className="text-2xl font-bold leading-none mb-1">{s.value}</p>
-                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">{s.label}</p>
+                    <p className="text-2xl font-black text-slate-800 leading-none mb-1">{s.value}</p>
+                    <p className="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider">{s.label}</p>
                  </div>
               </div>
             ))}
@@ -158,13 +158,13 @@ export default function App() {
             {/* Directory Section */}
             <div className="md:col-span-12 space-y-6">
               {/* Search */}
-              <div className="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm">
+              <div className="neu-flat p-4 rounded-2xl">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
                   <input 
                     type="text" 
                     placeholder="Cari nama anggota..." 
-                    className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900 transition-all text-sm"
+                    className="w-full pl-11 pr-4 py-3.5 bg-slate-200 rounded-xl focus:outline-none transition-all text-sm font-semibold text-slate-700 shadow-[inset_4px_4px_8px_#c8d0da,inset_-4px_-4px_8px_#ffffff] border border-white/20 placeholder-slate-400 focus:ring-2 focus:ring-blue-400/50"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                   />
@@ -172,14 +172,14 @@ export default function App() {
               </div>
 
               {/* Member List */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {loading ? (
                   Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className="h-24 bg-slate-100 animate-pulse rounded-2xl" />
+                    <div key={i} className="h-24 neu-flat animate-pulse rounded-2xl" />
                   ))
                 ) : pagedCards.length === 0 ? (
-                  <div className="col-span-full text-center py-12 bg-white rounded-2xl border border-dashed border-slate-200">
-                    <p className="text-slate-400 font-medium">Tidak ada data yang ditemukan.</p>
+                  <div className="col-span-full text-center py-12 bg-slate-200 rounded-2xl shadow-[inset_4px_4px_8px_#c8d0da,inset_-4px_-4px_8px_#ffffff] border border-slate-300/20">
+                    <p className="text-slate-400 font-semibold">Tidak ada data yang ditemukan.</p>
                   </div>
                 ) : (
                   pagedCards.map((card) => (
@@ -188,38 +188,40 @@ export default function App() {
                       key={card.id}
                       onClick={() => setSelectedCardId(card.id)}
                       className={cn(
-                        "group relative p-4 rounded-2xl border transition-all cursor-pointer flex items-center gap-4",
+                        "group relative p-4 rounded-2xl transition-all cursor-pointer flex items-center gap-4 border border-white/20",
                         selectedCardId === card.id 
-                          ? "bg-white border-slate-900 shadow-xl shadow-slate-200" 
-                          : "bg-white border-slate-200 hover:border-slate-300 shadow-sm"
+                          ? "neu-inset scale-[0.98] text-slate-800" 
+                          : "neu-flat hover:scale-[1.01] hover:shadow-[8px_8px_16px_#c8d0da,-8px_-8px_16px_#ffffff]"
                       )}
                     >
-                      <div className="relative shrink-0">
+                      <div className="relative shrink-0 shadow-[4px_4px_8px_#c8d0da,-4px_-4px_8px_#ffffff] rounded-full p-0.5 bg-slate-200">
                         <img 
                           src={card.photoUrl || null} 
                           alt={card.name} 
-                          className="w-12 h-12 rounded-full object-cover border border-slate-200"
+                          className="w-12 h-12 rounded-full object-cover border border-slate-300"
                           referrerPolicy="no-referrer"
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-sm text-slate-900 truncate">{card.name}</h3>
-                        <div className="mt-1">
+                        <h3 className="font-extrabold text-sm text-slate-800 truncate">{card.name}</h3>
+                        <div className="mt-1.5">
                           <span className={cn(
-                            "text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider border",
+                            "text-[9px] px-2.5 py-0.5 rounded font-extrabold uppercase tracking-wider shadow-sm",
                             String(card.status || '').toLowerCase() === 'aktif'
-                              ? "bg-green-50 text-green-700 border-green-200"
-                              : "bg-red-50 text-red-700 border-red-200"
+                              ? "bg-green-500/10 text-green-700 border border-green-500/20"
+                              : "bg-red-500/10 text-red-700 border border-red-500/20"
                           )}>
                             {card.status || 'Aktif'}
                           </span>
                         </div>
                       </div>
                       <div className={cn(
-                        "p-2 rounded-full transition-colors shrink-0",
-                        selectedCardId === card.id ? "bg-slate-900 text-white" : "bg-slate-50 text-slate-400 group-hover:bg-slate-100"
+                        "p-2.5 rounded-full transition-all shrink-0",
+                        selectedCardId === card.id 
+                          ? "bg-slate-300/40 text-blue-600 shadow-[inset_2px_2px_4px_#cbd5e1,inset_-2px_-2px_4px_#ffffff]" 
+                          : "text-slate-400 shadow-[3px_3px_6px_#c8d0da,-3px_-3px_6px_#ffffff] group-hover:shadow-[1px_1px_3px_#c8d0da,-1px_-1px_3px_#ffffff] group-hover:text-slate-600 bg-slate-200"
                       )}>
-                        <ArrowRight size={14} />
+                        <ArrowRight size={14} className={cn("transition-transform duration-300", selectedCardId === card.id && "rotate-90")} />
                       </div>
                     </motion.div>
                   ))
@@ -228,15 +230,20 @@ export default function App() {
 
               {/* Pagination Controls */}
               {!loading && totalPages > 1 && (
-                <div className="flex items-center justify-center gap-2 mt-8">
+                <div className="flex items-center justify-center gap-3 mt-8">
                   <button 
                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
-                    className="p-2 border border-slate-200 rounded-lg hover:bg-slate-100 disabled:opacity-30 disabled:hover:bg-white transition-colors"
+                    className={cn(
+                      "p-3 rounded-xl text-slate-600 transition-all bg-slate-200",
+                      currentPage === 1 
+                        ? "opacity-40 cursor-not-allowed shadow-[inset_2px_2px_4px_#c8d0da,inset_-2px_-2px_4px_#ffffff]" 
+                        : "neu-btn"
+                    )}
                   >
                     <ArrowRight className="rotate-180" size={16} />
                   </button>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-2">
                     {Array.from({ length: Math.min(5, totalPages) }).map((_, i) => {
                       let pageNum = currentPage;
                       if (currentPage <= 3) pageNum = i + 1;
@@ -250,10 +257,10 @@ export default function App() {
                           key={pageNum}
                           onClick={() => setCurrentPage(pageNum)}
                           className={cn(
-                            "w-8 h-8 rounded-lg text-xs font-bold transition-all",
+                            "w-10 h-10 rounded-xl text-xs font-bold transition-all bg-slate-200",
                             currentPage === pageNum 
-                              ? "bg-slate-900 text-white" 
-                              : "text-slate-500 hover:bg-slate-100"
+                              ? "text-blue-600 shadow-[inset_3px_3px_6px_#c8d0da,inset_-3px_-3px_6px_#ffffff] bg-slate-300/20" 
+                              : "neu-btn text-slate-600"
                           )}
                         >
                           {pageNum}
@@ -264,7 +271,12 @@ export default function App() {
                   <button 
                     onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                     disabled={currentPage === totalPages}
-                    className="p-2 border border-slate-200 rounded-lg hover:bg-slate-100 disabled:opacity-30 disabled:hover:bg-white transition-colors"
+                    className={cn(
+                      "p-3 rounded-xl text-slate-600 transition-all bg-slate-200",
+                      currentPage === totalPages 
+                        ? "opacity-40 cursor-not-allowed shadow-[inset_2px_2px_4px_#c8d0da,inset_-2px_-2px_4px_#ffffff]" 
+                        : "neu-btn"
+                    )}
                   >
                     <ArrowRight size={16} />
                   </button>
@@ -273,7 +285,7 @@ export default function App() {
 
               {/* Legal Disclaimer Section */}
               <div className="mt-12 space-y-6">
-                <div className="bg-amber-50 border border-amber-100 p-5 sm:p-8 rounded-2xl text-center">
+                <div className="neu-amber-inset p-5 sm:p-8 rounded-2xl text-center">
                   <div className="flex flex-col items-center justify-center gap-1.5 mb-4 text-amber-800">
                     <AlertTriangle size={18} />
                     <h3 className="font-extrabold uppercase tracking-wider text-xs">Informasi Penting & Etika Jurnalistik</h3>
@@ -285,13 +297,13 @@ export default function App() {
                     <p className="font-extrabold text-amber-900 italic">
                       KARTU PERS (KTA) YANG BERLAKU HANYA YANG DIKELUARKAN OLEH REDAKSI MEDIA TINTA INFORMASI.
                     </p>
-                    <p className="pt-3 border-t border-amber-200/50 mt-3 flex justify-center">
+                    <p className="pt-3 border-t border-amber-300/30 mt-3 flex justify-center">
                       <a href="https://tintainformasi.com/redaksi/" target="_blank" rel="noopener noreferrer" className="text-blue-700 font-extrabold hover:underline inline-flex flex-col items-center gap-1 text-[10px]">
                         <span>INFO BOKS REDAKSI</span>
                         <span className="font-mono text-[9px] mt-0.5">https://tintainformasi.com/redaksi/</span>
                       </a>
                     </p>
-                    <div className="mt-4 p-3 bg-white/60 border border-amber-200 rounded-xl text-center max-w-md mx-auto">
+                    <div className="mt-4 p-3 bg-amber-50 rounded-xl text-center max-w-md mx-auto shadow-[inset_1px_1px_3px_rgba(180,140,80,0.2)] border border-amber-200/50">
                       <p className="text-[9px] text-amber-800 font-extrabold uppercase mb-1">Status Verifikasi Organisasi</p>
                       <p className="text-[10px] text-slate-700 font-bold">Tinta Informasi telah diverifikasi oleh JMSI (Jaringan Media Siber Indonesia)</p>
                       <p className="text-[10px] text-blue-700 font-extrabold">Sertifikat Nomor 10.109/JMSI/2024</p>
@@ -313,7 +325,7 @@ export default function App() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedCardId(null)}
-              className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
+              className="fixed inset-0 bg-slate-900/65 backdrop-blur-sm"
             />
             
             <motion.div 
@@ -322,17 +334,17 @@ export default function App() {
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               className="relative w-full max-w-md z-10 my-auto"
             >
-              <div className="bg-white rounded-3xl shadow-2xl p-3 sm:p-6 relative overflow-hidden">
-                <div className="flex items-center justify-between mb-4 sm:mb-6 px-2 sm:px-0">
+              <div className="bg-slate-200 rounded-3xl p-5 sm:p-6 relative overflow-hidden shadow-[12px_12px_24px_#beccd9,-12px_-12px_24px_#ffffff] border border-white/40">
+                <div className="flex items-center justify-between mb-4 sm:mb-6 px-1">
                   <div className="flex items-center gap-2">
-                    <Shield className="text-slate-900" size={20} />
-                    <h2 className="font-bold text-slate-900 text-[10px] sm:text-sm uppercase tracking-[0.1em]">Member Card Preview</h2>
+                    <Shield className="text-slate-700" size={18} />
+                    <h2 className="font-extrabold text-slate-700 text-[11px] sm:text-xs uppercase tracking-[0.12em]">Member Card Preview</h2>
                   </div>
                   <button 
                     onClick={() => setSelectedCardId(null)}
-                    className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500"
+                    className="p-2.5 rounded-full text-slate-500 bg-slate-200 shadow-[3px_3px_6px_#c8d0da,-3px_-3px_6px_#ffffff] hover:shadow-[inset_2px_2px_4px_#c8d0da,inset_-2px_-2px_4px_#ffffff] hover:text-red-500 transition-all"
                   >
-                    <X size={20} />
+                    <X size={16} />
                   </button>
                 </div>
 
@@ -363,9 +375,9 @@ export default function App() {
                   </div>
                 </div>
                 
-                <div className="mt-4 sm:mt-8 pt-4 sm:pt-6 border-t border-slate-100 text-center">
+                <div className="mt-4 sm:mt-6 pt-4 sm:pt-5 border-t border-slate-300/40 text-center">
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Status Keanggotaan</p>
-                  <p className="text-[10px] sm:text-xs text-slate-600 px-4">Verifikasi digital ID diterbitkan secara internal oleh Redaksi</p>
+                  <p className="text-[10px] sm:text-xs text-slate-500 px-4">Verifikasi digital ID diterbitkan secara internal oleh Redaksi</p>
                 </div>
               </div>
             </motion.div>

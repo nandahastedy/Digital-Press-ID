@@ -36,6 +36,83 @@
       background-position: 200% center;
     }
   }
+
+  /* Neumorphic UI Utilities */
+  .neu-bg {
+    background-color: #e2e8f0 !important; /* Force slate-200 base */
+  }
+
+  /* Extruded (Outset) Soft card */
+  .neu-flat {
+    background-color: #e2e8f0;
+    box-shadow: 6px 6px 12px #c8d0da, -6px -6px 12px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  /* Deeper extruded card for larger layouts */
+  .neu-flat-lg {
+    background-color: #e2e8f0;
+    box-shadow: 12px 12px 24px #beccd9, -12px -12px 24px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  /* Sunken (Inset) Soft card */
+  .neu-inset {
+    background-color: #e2e8f0;
+    box-shadow: inset 4px 4px 8px #c8d0da, inset -4px -4px 8px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Sunken Deep (for text inputs) */
+  .neu-inset-deep {
+    background-color: #dee4ec;
+    box-shadow: inset 3px 3px 6px #b8c2cc, inset -3px -3px 6px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Neumorphic Buttons */
+  .neu-btn {
+    background-color: #e2e8f0;
+    box-shadow: 4px 4px 8px #c8d0da, -4px -4px 8px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .neu-btn:hover {
+    box-shadow: 2px 2px 4px #c8d0da, -2px -2px 4px #ffffff;
+    transform: translateY(0.5px);
+  }
+
+  .neu-btn:active, .neu-btn-active {
+    box-shadow: inset 3px 3px 6px #c8d0da, inset -3px -3px 6px #ffffff !important;
+    background-color: #dee4ec;
+    transform: translateY(1px);
+  }
+
+  /* Circular Neumorphic Buttons */
+  .neu-btn-circle {
+    background-color: #e2e8f0;
+    box-shadow: 4px 4px 8px #c8d0da, -4px -4px 8px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 9999px;
+    transition: all 0.2s ease;
+  }
+
+  .neu-btn-circle:hover {
+    box-shadow: 2px 2px 4px #c8d0da, -2px -2px 4px #ffffff;
+  }
+
+  .neu-btn-circle:active, .neu-btn-circle-active {
+    box-shadow: inset 3px 3px 6px #c8d0da, inset -3px -3px 6px #ffffff !important;
+    background-color: #dee4ec;
+  }
+
+  /* Alert / Warning Neumorphic variant */
+  .neu-amber-inset {
+    background-color: #fef3c7; /* Amber-100 base */
+    box-shadow: inset 3px 3px 6px #e2d29e, inset -3px -3px 6px #ffffff;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+  }
 }
 
 @media print {
